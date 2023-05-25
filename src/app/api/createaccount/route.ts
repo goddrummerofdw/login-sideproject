@@ -10,10 +10,13 @@ export async function POST(request: Request) {
         let user = await User.findOne({ email: body.email })
         if (user) {
             console.log(`Found User ${user}`)
-            return NextResponse.json({ status: 200, message: "User Found, Grant them Dashboard Access" })
+            return NextResponse.json({ message: "User Already Exists" })
         } else {
-            return NextResponse.json({ status: 401, message: "User Not Found, Invalid Credentials" })
+            user = new User({ firstName: body.firstName, lastName: body.lastName, email: body.email, password: body.password });
+            const savedUser = await user.save();
+            console.log('User created:', savedUser);
         }
+        return NextResponse.json({ message: "User Created" })
     } catch (error) {
         console.log(error)
         throwError('Something Went Wrong')

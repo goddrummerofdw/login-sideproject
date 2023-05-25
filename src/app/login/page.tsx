@@ -22,21 +22,25 @@ const Login = () => {
     password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required')
   });
 
-  // create and API POST request to submit form data
   const formik = useFormik({
+    validationSchema,
     initialValues: {
       email: '',
       password: ''
     },
-    validationSchema,
     onSubmit: data => {
-      alert(JSON.stringify(data));
-      let status = 400
-      if (status === 200) {
-        router.push('/dashboard')
-      } else {
-        setAlertVisible(true)
-      }
+      fetch('/api/login', {
+        method: 'POST',
+        body: JSON.stringify(data)
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.status === 200) {
+            router.push('/dashboard')
+          } else {
+            setAlertVisible(true)
+          }
+        });
     },
   });
 
@@ -52,9 +56,10 @@ const Login = () => {
           alt="image"
           layout='fill' />
       </div>
-
-      <form className='flex flex-center flex-col justify-center items-center h-screen' onSubmit={formik.handleSubmit}>
-        <h1 className='text-center font-bold text-2xl text-white'>Test</h1>
+      <form
+        className='flex flex-center flex-col justify-center items-center h-screen'
+        onSubmit={formik.handleSubmit}>
+        <h1 className='text-center font-bold text-2xl text-white'>Login</h1>
         <div className='w-3/4'>
           <div className='translate-y-20 translate-x-4 w-5'>
             <Image
@@ -69,7 +74,11 @@ const Login = () => {
             onChange={formik.handleChange}
             id="email"
             name="email"
-            value={formik.values.email} />
+            value={formik.values.email}
+          />
+          {formik.touched.email && formik.errors.email && (
+            <div className='text-red-600'>{formik.errors.email}</div>
+          )}
 
           <div className='relative'>
             <FormInput
@@ -78,7 +87,11 @@ const Login = () => {
               id="password"
               name="password"
               onChange={formik.handleChange}
-              value={formik.values.password} />
+              value={formik.values.password}
+            />
+            {formik.touched.password && formik.errors.password && (
+              <div className='text-red-600'>{formik.errors.password}</div>
+            )}
             <div className="flex flex-initial translate-y-4">
               <label className='w-full text-right'>
                 <span className='pr-2'>Remember Me</span>
@@ -100,7 +113,7 @@ const Login = () => {
             className="w-full text-black h-14 rounded-md mb-8 bg-rose-400"
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.8 }}
-            type='submit'>
+          >
             Sign in
           </motion.button>
           <motion.div

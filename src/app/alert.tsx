@@ -8,7 +8,6 @@ interface AlertProps {
 }
 
 const Alert = ({ type, message, onclose }: AlertProps) => {
-
     React.useEffect(() => {
         const timeout = setTimeout(() => {
             onclose();
@@ -36,10 +35,6 @@ const Alert = ({ type, message, onclose }: AlertProps) => {
             borderColor = 'border-red-500';
             textColor = 'text-red-700';
             break;
-        default:
-            bgColor = 'bg-gray-100';
-            borderColor = 'border-gray-500';
-            textColor = 'text-gray-700';
     }
 
     return (
