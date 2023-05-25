@@ -61,13 +61,14 @@ const Login = () => {
         onSubmit={formik.handleSubmit}>
         <h1 className='text-center font-bold text-2xl text-white'>Login</h1>
         <div className='w-3/4'>
-          <div className='translate-y-20 translate-x-4 w-5'>
+          <div className='translate-y-20 translate-x-4 w-5 '>
             <Image
               src="/login-envelope.svg"
               alt="envelope"
               width="18"
               height="25" />
           </div>
+
           <FormInput
             type="text"
             placeholder="Email"
@@ -76,9 +77,15 @@ const Login = () => {
             name="email"
             value={formik.values.email}
           />
-          {formik.touched.email && formik.errors.email && (
-            <div className='text-red-600'>{formik.errors.email}</div>
+
+          {formik.touched.email && formik.errors.email ? (
+            <div className='text-red-600' style={{ height: '20px' }}>
+              {formik.errors.email}
+            </div>
+          ) : (
+            <div style={{ height: '20px', visibility: 'hidden' }}></div>
           )}
+
 
           <div className='relative'>
             <FormInput
@@ -89,8 +96,12 @@ const Login = () => {
               onChange={formik.handleChange}
               value={formik.values.password}
             />
-            {formik.touched.password && formik.errors.password && (
-              <div className='text-red-600'>{formik.errors.password}</div>
+            {formik.touched.password && formik.errors.password ? (
+              <div className='text-red-600' style={{ height: '20px' }}>
+                {formik.errors.password}
+              </div>
+            ) : (
+              <div style={{ height: '20px', visibility: 'hidden' }}></div>
             )}
             <div className="flex flex-initial translate-y-4">
               <label className='w-full text-right'>
@@ -98,7 +109,7 @@ const Login = () => {
                 <input type="checkbox" />
               </label>
             </div>
-            <div className='-translate-y-16 translate-x-4 w-5'>
+            <div className='-translate-y-20 translate-x-4 w-5'>
               <Image
                 src={showPassword ? '/login-eye-slash-solid.svg' : '/login-eye-solid.svg'}
                 alt="toggle show password"
@@ -113,6 +124,7 @@ const Login = () => {
             className="w-full text-black h-14 rounded-md mb-8 bg-rose-400"
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.8 }}
+            type='submit'
           >
             Sign in
           </motion.button>
