@@ -135,10 +135,12 @@ const Login = () => {
             whileHover={{ scale: 1.01 }}
             className="text-white-500 mt-1 text-center cursor-pointer" ><Link href="/createaccount">Create Account</Link></motion.div>
         </div>
-        {isAlertVisible && <Alert
-          type="error"
-          message='Invalid Credentials!'
-          onclose={closeAlert} />}
+        <div className='absolute center bottom-10'>
+          {isAlertVisible && <Alert
+            type="error"
+            message='Invalid Credentials!'
+            onclose={closeAlert} />}
+        </div>
       </form>
     </div>
   )
