@@ -5,14 +5,14 @@ import User from '../../mongooseschema'
 
 export async function POST(request: Request) {
     try {
-        const body = await request.json()
+        const { email, password } = await request.json()
         console.log(NextRequest)
-        let user = await User.findOne({ email: body.email })
+        let user = await User.findOne({ email: email, password: password })
         if (user) {
             console.log(`Found User ${user}`)
-            return NextResponse.json({ status: 200, message: "User Found, Grant them Dashboard Access" })
+            return NextResponse.json({ status: 200, message: "Dashboard Access Granted" })
         } else {
-            return NextResponse.json({ status: 401, message: "User Not Found, Invalid Credentials" })
+            return NextResponse.json({ status: 401, message: "Invalid Credentials" })
         }
     } catch (error) {
         console.log(error)

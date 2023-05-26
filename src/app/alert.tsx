@@ -11,7 +11,7 @@ const Alert = ({ type, message, onclose }: AlertProps) => {
     React.useEffect(() => {
         const timeout = setTimeout(() => {
             onclose();
-        }, 2000);
+        }, 5000);
         return () => clearTimeout(timeout);
     }, [onclose]);
 
