@@ -5,13 +5,18 @@ import User from '../../mongooseschema'
 export async function POST(request: Request) {
     try {
         const { email, firstName, lastName, password } = await request.json()
-        const lowerCaseEmail = email.toLowerCase()
-        let user = await User.findOne({ email: lowerCaseEmail })
+        // const lowerCaseEmail = email.toLowerCase().split(' ').map((char: string) => char.trim()).join('');
+        let fields = [firstName, lastName, email]
+        const mapedFields = fields.map((field) => {
+            return field.toLowerCase().split(' ').map((char: string) => char.trim()).join('');
+        })
+
+        let user = await User.findOne({ email: mapedFields[2] })
         if (user) {
             console.log(`Found User ${user}`)
             return NextResponse.json({ status: 404, message: "User Already Exists , Please Try Logging in" })
         } else {
-            user = new User({ firstName: firstName, lastName: lastName, email: lowerCaseEmail, password: password });
+            user = new User({ firstName: mapedFields[0], lastName: mapedFields[1], email: mapedFields[2], password: password });
             const savedUser = await user.save();
             console.log('User created:', savedUser);
         }
