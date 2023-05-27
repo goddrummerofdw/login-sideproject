@@ -12,7 +12,7 @@ import Image from 'next/legacy/image'
 const CreateAccount = () => {
     const [showPassword, setShowPassword] = React.useState(false);
     const [isAlertVisible, setAlertVisible] = React.useState(false);
-    const [serverResponse, setServerResponse] = React.useState("")
+    const [alertMessage, setAlertMessage] = React.useState("")
 
     const router = useRouter();
     const togglePasswordVisibility = () => {
@@ -44,7 +44,7 @@ const CreateAccount = () => {
                         router.push('/dashboard')
                     } else {
                         setAlertVisible(true)
-                        setServerResponse(data.message)
+                        setAlertMessage(data.message)
                     }
                 });
         },
@@ -156,7 +156,7 @@ const CreateAccount = () => {
                     {isAlertVisible &&
                         <Alert
                             type="error"
-                            message={serverResponse}
+                            message={alertMessage}
                             onclose={closeAlert} />}
                 </div>
             </form>

@@ -17,7 +17,7 @@ export async function POST(request: Request) {
             }
 
         } else {
-            return NextResponse.json({ status: 401, message: "Invalid Credentials" })
+            return NextResponse.json({ status: 401, message: "Account Not Found" })
         }
     } catch (error) {
         console.log(error)

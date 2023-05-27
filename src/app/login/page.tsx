@@ -12,6 +12,7 @@ import Image from 'next/legacy/image'
 const Login = () => {
   const [showPassword, setShowPassword] = React.useState(false);
   const [isAlertVisible, setAlertVisible] = React.useState(false);
+  const [alertMessage, setAlertMessage] = React.useState("")
 
   const router = useRouter();
   const togglePasswordVisibility = () => {
@@ -39,6 +40,7 @@ const Login = () => {
             router.push('/dashboard')
           } else {
             setAlertVisible(true)
+            setAlertMessage(data.message)
           }
         });
     },
@@ -138,7 +140,7 @@ const Login = () => {
         <div className='absolute center bottom-10'>
           {isAlertVisible && <Alert
             type="error"
-            message='Invalid Credentials!'
+            message={alertMessage}
             onclose={closeAlert} />}
         </div>
       </form>
