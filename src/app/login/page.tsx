@@ -2,19 +2,18 @@
 import React from 'react'
 import { motion } from "framer-motion";
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import FormInput from '../forminput';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Alert from '../alert'
 import Image from 'next/legacy/image'
+import { useAuth } from '../context/authorize'
+import { useAuthContext } from '../context/authorize'
 
 const Login = () => {
   const [showPassword, setShowPassword] = React.useState(false);
-  const [isAlertVisible, setAlertVisible] = React.useState(false);
-  const [alertMessage, setAlertMessage] = React.useState("")
-
-  const router = useRouter();
+  const { login } = useAuth();
+  // const router = useRouter();
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -23,6 +22,7 @@ const Login = () => {
     password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required')
   });
 
+  const { alertMessage, isAlertVisible }: any = useAuthContext()
   const formik = useFormik({
     validationSchema,
     initialValues: {
@@ -30,27 +30,12 @@ const Login = () => {
       password: ''
     },
     onSubmit: data => {
-      fetch('/api/login', {
-        method: 'POST',
-        body: JSON.stringify(data)
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.status === 200) {
-            router.push('/dashboard')
-          } else {
-            setAlertVisible(true)
-            setAlertMessage(data.message)
-          }
-        });
+      login(data)
     },
   });
 
-  const closeAlert = () => {
-    setAlertVisible(false);
-  };
-
   return (
+
     <div className="w-full 2xl:grid grid-cols-2">
       <div className='2xl:h-screen relative'>
         <Image
@@ -141,7 +126,7 @@ const Login = () => {
           {isAlertVisible && <Alert
             type="error"
             message={alertMessage}
-            onclose={closeAlert} />}
+          />}
         </div>
       </form>
     </div>

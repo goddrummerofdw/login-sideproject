@@ -4,16 +4,16 @@ import { motion } from "framer-motion";
 interface AlertProps {
     type: string;
     message: string;
-    onclose: () => void
+
 }
 
-const Alert = ({ type, message, onclose }: AlertProps) => {
-    React.useEffect(() => {
-        const timeout = setTimeout(() => {
-            onclose();
-        }, 5000);
-        return () => clearTimeout(timeout);
-    }, [onclose]);
+const Alert = ({ type, message }: AlertProps) => {
+    // React.useEffect(() => {
+    //     const timeout = setTimeout(() => {
+    //         onclose();
+    //     }, 5000);
+    //     return () => clearTimeout(timeout);
+    // }, [onclose]);
 
     let bgColor;
     let borderColor;

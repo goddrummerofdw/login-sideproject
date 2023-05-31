@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react'
+import React from 'react'
 import { motion } from "framer-motion";
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -157,7 +157,7 @@ const CreateAccount = () => {
                         <Alert
                             type="error"
                             message={alertMessage}
-                            onclose={closeAlert} />}
+                        />}
                 </div>
             </form>
         </div>

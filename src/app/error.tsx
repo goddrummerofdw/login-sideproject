@@ -12,7 +12,6 @@ export default function Error({
     // Log the error to an error reporting service
     console.error(error);
   }, [error]);
-  console.log(error.message)
   return (
     <section className="flex items-center h-screen p-16 dark:dark:bg-black dark:dark:text-gray-100">
       <div className="container flex flex-col items-center justify-center px-5 mx-auto my-8">
