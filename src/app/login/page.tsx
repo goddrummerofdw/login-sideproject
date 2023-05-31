@@ -13,7 +13,6 @@ import { useAuthContext } from '../context/authorize'
 const Login = () => {
   const [showPassword, setShowPassword] = React.useState(false);
   const { login } = useAuth();
-  // const router = useRouter();
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
