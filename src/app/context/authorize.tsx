@@ -7,7 +7,7 @@ interface AuthContextType {
   isAlertVisible: boolean;
   isAuthenticated: boolean;
   setAlertVisible: any;
-  login: (data: any) => void;
+  login: (data: { email: string, password: string }) => void;
   logout: () => void;
 }
 

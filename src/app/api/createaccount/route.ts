@@ -26,7 +26,7 @@ export async function POST(request: Request) {
         let user = await User.findOne({ email: mapedFields[2] })
         const hashedPassword = await hashPassword(password, 10)
         if (user) {
-            console.log(`Found User ${user}`)
+            // console.log(`Found User ${user}`)
             return NextResponse.json({ status: 404, message: "User Already Exists , Please Try Logging in" })
         } else {
             user = new User({ firstName: mapedFields[0], lastName: mapedFields[1], email: mapedFields[2], password: hashedPassword });
