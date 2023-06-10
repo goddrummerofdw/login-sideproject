@@ -7,7 +7,7 @@ interface AuthContextType {
   isAlertVisible: boolean;
   isAuthenticated: boolean;
   setAlertVisible: any;
-  login: (data: { email: string, password: string }) => void;
+  login: (data: { email: string, password: string, rememberPassword: boolean }) => void;
   logout: () => void;
 }
 
@@ -32,10 +32,10 @@ export const AuthProvider = ({ children }: any) => {
   }, 5000)
 
   const timeoutFunc = () => clearTimeout(timeout);
-  const login = (data: any) => {
+  const login = (data: { email: string, password: string, rememberPassword: boolean }) => {
     fetch('/api/login', {
       method: 'POST',
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     })
       .then((res) => res.json())
       .then((data) => {

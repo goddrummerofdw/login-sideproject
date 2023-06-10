@@ -1,41 +1,35 @@
 import * as jose from 'jose'
 import throwError from "../throwerror"
-import { nanoid } from 'nanoid'
-
-interface UserJwtPayload {
-    jti: string;
-    iat: number;
-}
-
-export const getJwtSecret = () => {
-    const secret = new TextEncoder().encode(process.env.TOKEN_SECRET)
+import { SignJWT, jwtVerify } from 'jose'
+const secret = new TextEncoder().encode(process.env.JWTSECRET)
+export const getJwtSecret: any = () => {
+    const secret = new TextEncoder().encode(process.env.JWTSECRET)
     if (!secret) {
-        throwError("ENV secret is not set")
+        throwError("Had trouble getting jwt secret")
     }
-    return secret
+    return secret;
 }
 export const verifyAuth = async (token: string) => {
     try {
-        const verified = await jose.jwtVerify(token, getJwtSecret())
-        return verified.payload as UserJwtPayload
+        const verified = await jwtVerify(token, getJwtSecret())
+        console.log(verified, 'verified form auth')
+        return verified.payload
     }
     catch (err) {
+        console.log("Your Token Has Expired")
         throwError("Your Token Has Expired")
     }
 }
 
-export const signJwt = async () => {
+export const signJwt = async (_id: string, email: string, rememberPassword: boolean) => {
     try {
-        return await new jose.SignJWT({})
+        return await new jose.SignJWT({ _id, email, rememberPassword })
             .setProtectedHeader({ alg: 'HS256' })
-            .setJti(nanoid())
             .setIssuedAt()
-            .setExpirationTime('1m')
-            .sign(getJwtSecret())
+            .setExpirationTime(rememberPassword ? '2h' : '1m')
+            .sign(getJwtSecret());
+
     } catch (error) {
-        throwError("Failed to sign token")
+        console.log(error)
     }
 }
-
-
-

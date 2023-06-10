@@ -12,6 +12,8 @@ import { useAuthContext } from '../context/authorize'
 
 const Login = () => {
   const [showPassword, setShowPassword] = React.useState(false);
+  const [rememberPassword, setRememberPassword] = React.useState(false)
+  const { alertMessage, isAlertVisible }: any = useAuthContext()
   const { login } = useAuth();
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -20,21 +22,23 @@ const Login = () => {
     email: Yup.string().email("Invalid email").required("Email is required"),
     password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required')
   });
-
-  const { alertMessage, isAlertVisible }: any = useAuthContext()
+  // console.log(rememberPassword, 'remember me var')
   const formik = useFormik({
     validationSchema,
     initialValues: {
       email: '',
-      password: ''
+      password: '',
     },
     onSubmit: data => {
-      login(data)
+      login({ ...data, rememberPassword })
     },
   });
+  const handleRememberPasswordToggle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const isChecked = event.target.checked;
+    setRememberPassword(isChecked);
+  };
 
   return (
-
     <div className="w-full 2xl:grid grid-cols-2">
       <div className='2xl:h-screen relative'>
         <Image
@@ -72,7 +76,6 @@ const Login = () => {
             <div style={{ height: '20px', visibility: 'hidden' }}></div>
           )}
 
-
           <div className='relative'>
             <FormInput
               type={showPassword ? 'text' : 'password'}
@@ -92,7 +95,11 @@ const Login = () => {
             <div className="flex flex-initial translate-y-4">
               <label className='w-full text-right'>
                 <span className='pr-2'>Remember Me</span>
-                <input type="checkbox" />
+                <input
+                  type="checkbox"
+                  name="rememberPassword"
+                  onChange={handleRememberPasswordToggle}
+                  checked={rememberPassword} />
               </label>
             </div>
             <div className='-translate-y-20 translate-x-4 w-5'>
