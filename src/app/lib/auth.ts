@@ -12,7 +12,6 @@ export const getJwtSecret: any = () => {
 export const verifyAuth = async (token: string) => {
     try {
         const verified = await jwtVerify(token, getJwtSecret())
-        console.log(verified, 'verified form auth')
         return verified.payload
     }
     catch (err) {
@@ -21,7 +20,7 @@ export const verifyAuth = async (token: string) => {
     }
 }
 
-export const signJwt = async (_id: string, email: string, rememberPassword: boolean) => {
+export const signJwt = async (_id?: string, email?: string, rememberPassword?: boolean) => {
     try {
         return await new jose.SignJWT({ _id, email, rememberPassword })
             .setProtectedHeader({ alg: 'HS256' })
