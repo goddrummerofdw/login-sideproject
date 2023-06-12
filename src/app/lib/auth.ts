@@ -1,7 +1,5 @@
 import * as jose from 'jose'
 import throwError from "../throwerror"
-import { SignJWT, jwtVerify } from 'jose'
-const secret = new TextEncoder().encode(process.env.JWTSECRET)
 export const getJwtSecret: any = () => {
     const secret = new TextEncoder().encode(process.env.JWTSECRET)
     if (!secret) {
@@ -11,7 +9,7 @@ export const getJwtSecret: any = () => {
 }
 export const verifyAuth = async (token: string) => {
     try {
-        const verified = await jwtVerify(token, getJwtSecret())
+        const verified = await jose.jwtVerify(token, getJwtSecret())
         return verified.payload
     }
     catch (err) {

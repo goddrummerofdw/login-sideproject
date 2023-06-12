@@ -67,7 +67,7 @@ export const AuthProvider = ({ children }: any) => {
     login,
     logout
   };
-  console.log(data, 'adter contextval')
+  console.log(data, 'after context')
   return <AuthContext.Provider value={authContextValue}>{children}</AuthContext.Provider>;
 };
 
