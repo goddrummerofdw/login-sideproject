@@ -30,7 +30,7 @@
     }
   },
   "include": [
-    "middleware.ts",
+    "src/middleware.ts",
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
