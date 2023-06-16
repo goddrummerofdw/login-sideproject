@@ -24,7 +24,7 @@ export const signJwt = async (_id?: string, email?: string, rememberPassword?: b
         return await new jose.SignJWT({ _id, email, rememberPassword })
             .setProtectedHeader({ alg: 'HS256' })
             .setIssuedAt()
-            .setExpirationTime(rememberPassword ? '2h' : '1m')
+            .setExpirationTime(rememberPassword ? '2h' : '1h')
             .sign(getJwtSecret());
 
     } catch (error) {
