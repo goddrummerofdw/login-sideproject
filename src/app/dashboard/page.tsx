@@ -1,27 +1,23 @@
-// 'use client';
-// import React from 'react'
-// import { useAuthContext } from '../context/authorize'
-// // Instead of having undefined. create a loading spinner animation
-// const page = () => {
-//     const { data }: any = useAuthContext()
-//     return (
-//         <div>
-//             <h1>{data.user.firstname}</h1>
-//             {/* {data ? <h1> Welcome {data.user.firstname} {data.user.lastname}</h1> : undefined} */}
-//         </div>
-
-//     )
-// }
-
-// export default page
-
-
-
+'use client';
 import React from 'react'
-
+// import { useAuthContext } from '../context/authorize'
+// import throwError from '../throwerror';
+// create a loading spinner animation 
 const page = () => {
+
+    // console.log(useAuthContext(), 'from dashboard')
+
+    // React.useEffect(() => {
+    //     if (data) {
+    //         console.log(data.user.firstname)
+    //     } else {
+    //         return throwError('ksjdkfhskjdhfkjhskjdhfkhskdjhfkjshkjdhfkjshdf')
+    //     }
+    // }, [data])
     return (
-        <div>dashbaord</div>
+        <h1>
+            Dashboard
+        </h1>
     )
 }
 

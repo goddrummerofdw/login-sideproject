@@ -41,7 +41,7 @@ export const AuthProvider = ({ children }: any) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data, 'this is context')
+        console.log(data, 'This is a test from data')
         if (data.status === 200) {
           setData(data)
           router.push('/dashboard')
@@ -67,7 +67,6 @@ export const AuthProvider = ({ children }: any) => {
     login,
     logout
   };
-  console.log(data, 'after context')
   return <AuthContext.Provider value={authContextValue}>{children}</AuthContext.Provider>;
 };
 

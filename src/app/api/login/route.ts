@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
                         name: 'user-token',
                         value: token,
                         httpOnly: true,
-                        // maxAge: 60 * 1,
+                        maxAge: 60 * 8,
                     });
                 })()
                 return response
