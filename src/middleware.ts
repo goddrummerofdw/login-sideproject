@@ -7,6 +7,7 @@ export async function middleware(req: NextRequest) {
 
     const verifiedToken = token && await verifyAuth(token).catch((err) => console.log(err))
     console.log(verifiedToken, 'This is the verified token')
+
     if (req.nextUrl.pathname.startsWith('/login') && !verifiedToken) {
         console.log('This checks for no token')
         return;
@@ -14,7 +15,7 @@ export async function middleware(req: NextRequest) {
     if (req.nextUrl.pathname.startsWith('/login') && verifiedToken) {
         return NextResponse.redirect(new URL('/dashboard', req.url));
     }
-    if (req.nextUrl.pathname.startsWith('/') && !verifiedToken) {
+    if (!verifiedToken) {
         console.log('No token')
         return NextResponse.redirect(new URL('/login', req.url));
     }
