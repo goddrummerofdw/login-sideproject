@@ -10,6 +10,7 @@ export const getJwtSecret: any = () => {
 export const verifyAuth = async (token: string) => {
     try {
         const verified = await jose.jwtVerify(token, getJwtSecret())
+        console.log(verified, "This has been verified")
         return verified.payload
     }
     catch (err) {

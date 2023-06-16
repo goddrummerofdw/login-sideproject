@@ -12,7 +12,7 @@ export async function middleware(req: NextRequest) {
         return NextResponse.redirect(new URL('/dashboard', req.url));
     }
     if (!verifiedToken) {
-        return NextResponse.redirect(new URL('/login', req.url))
+        return NextResponse.redirect(new URL('/login', req.url));
     }
     if (req.nextUrl.pathname.startsWith('/createaccount') && verifiedToken) {
         return NextResponse.redirect(new URL('/dashboard', req.url));
