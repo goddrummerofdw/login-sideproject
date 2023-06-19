@@ -10,12 +10,11 @@ export const getJwtSecret: any = () => {
 export const verifyAuth = async (token: string) => {
     try {
         const verified = await jose.jwtVerify(token, getJwtSecret())
-        console.log(verified, "This has been verified")
         return verified.payload
     }
     catch (err) {
-        console.log("Your Token Has Expired")
-        throwError("Your Token Has Expired")
+        console.log(err)
+        // throwError("Your Token Has Expired")
     }
 }
 
