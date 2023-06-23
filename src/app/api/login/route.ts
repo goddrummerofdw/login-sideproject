@@ -10,12 +10,14 @@ export async function POST(request: NextRequest) {
         const userObject: { [key: string]: any } | null = await User.findOne({ email: email })
         if (userObject) {
             const { _id, firstName, lastName, email } = userObject
+            const converstIdToString = _id.toString()
             const match = await bcrypt.compare(password, userObject.password);
             if (match) {
                 // console.log(`Found User ${userObject}`)
                 const response = NextResponse.json({ status: 200, message: "Dashboard Access Granted", user: { 'firstname': firstName, 'lastname': lastName, 'email': email, 'rememberPassword': rememberPassword } });
+
                 (async () => {
-                    const token = await signJwt(_id, email, rememberPassword) as string
+                    const token = await signJwt(converstIdToString, email, rememberPassword) as string
                     response.cookies.set({
                         name: 'user-token',
                         value: token,

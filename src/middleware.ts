@@ -21,7 +21,10 @@ export async function middleware(req: NextRequest) {
     if (req.nextUrl.pathname.startsWith('/createaccount') && verifiedToken) {
         return NextResponse.redirect(new URL('/dashboard', req.url));
     }
+
 }
+
+
 export const config = {
     matcher: ['/dashboard', '/login']
 }; 
