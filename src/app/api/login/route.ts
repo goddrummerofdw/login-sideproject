@@ -20,11 +20,10 @@ export async function POST(request: NextRequest) {
                         name: 'user-token',
                         value: token,
                         httpOnly: true,
-                        maxAge: 60 * 8,
+                        maxAge: 60 * 60 * 24,
                     });
                 })()
                 return response
-
             } else {
                 // console.log(`No User Found ${userObject}`)
                 return NextResponse.json({ status: 401, message: "Invalid Credentials", user: null })

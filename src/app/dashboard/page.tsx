@@ -1,24 +1,18 @@
 'use client';
-import React from 'react'
-// import { useAuthContext } from '../context/authorize'
-// import throwError from '../throwerror';
-// create a loading spinner animation 
+import React from 'react';
+
 const page = () => {
+    const [userData, setUserData] = React.useState({ firstName: "", lastName: "" })
+    // Make sure to make a util function for this
+    React.useEffect(() => {
+        fetch('/api/user', { method: "GET" }).then((res) => res.json()).then((e) => setUserData(e))
+    }, [])
 
-    // console.log(useAuthContext(), 'from dashboard')
-
-    // React.useEffect(() => {
-    //     if (data) {
-    //         console.log(data.user.firstname)
-    //     } else {
-    //         return throwError('ksjdkfhskjdhfkjhskjdhfkhskdjhfkjshkjdhfkjshdf')
-    //     }
-    // }, [data])
     return (
-        <h1>
-            Dashboard
-        </h1>
+        <div>
+            <h1>{`Welcome, ${userData.firstName}${' '} ${userData.lastName}!`}</h1>
+
+        </div>
     )
 }
-
 export default page

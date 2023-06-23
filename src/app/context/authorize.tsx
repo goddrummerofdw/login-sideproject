@@ -7,7 +7,6 @@ interface AuthContextType {
   isAlertVisible: boolean;
   isAuthenticated: boolean;
   setAlertVisible: any;
-  data: { [key: string]: any };
   login: (data: { email: string, password: string, rememberPassword: boolean }) => void;
   logout: () => void;
 }
@@ -26,7 +25,6 @@ export const AuthProvider = ({ children }: any) => {
   const [isAuthenticated, setIsAuthenticated] = React.useState(false);
   const [isAlertVisible, setAlertVisible] = React.useState(false);
   const [alertMessage, setAlertMessage] = React.useState("")
-  const [data, setData] = React.useState({})
   const router = useRouter();
 
   const timeout = setTimeout(() => {
@@ -41,9 +39,7 @@ export const AuthProvider = ({ children }: any) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data, 'This is a test from data')
         if (data.status === 200) {
-          setData(data)
           router.push('/dashboard')
         } else {
           setAlertVisible(true)
@@ -63,7 +59,6 @@ export const AuthProvider = ({ children }: any) => {
     isAlertVisible,
     setAlertVisible,
     isAuthenticated,
-    data,
     login,
     logout
   };

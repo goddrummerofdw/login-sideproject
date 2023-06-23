@@ -8,7 +8,7 @@ export async function middleware(req: NextRequest) {
 
     // console.log(verifiedToken, 'This is the verified token')
     if (req.nextUrl.pathname.startsWith('/login') && !verifiedToken) {
-        // console.log('This checks for no token')
+        // console.log('You dont have a token')
         return;
     }
     if (req.nextUrl.pathname.startsWith('/login') && verifiedToken) {

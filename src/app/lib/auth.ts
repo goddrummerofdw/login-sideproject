@@ -14,7 +14,6 @@ export const verifyAuth = async (token: string) => {
     }
     catch (err) {
         console.log(err)
-        // throwError("Your Token Has Expired")
     }
 }
 
