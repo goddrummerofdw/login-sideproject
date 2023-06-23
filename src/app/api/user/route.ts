@@ -4,19 +4,20 @@ import User from '../../mongooseschema'
 import { verifyAuth } from '../../lib/auth'
 
 export async function GET(request: NextRequest) {
+    const response = NextResponse.json({ message: "Something went wrong" });
     try {
         const token: string | undefined = request.cookies.get('user-token')?.value
         const verifiedToken = token && await verifyAuth(token).catch((err) => console.log(err))
-        
+
         if (verifiedToken) {
-            let userId = verifiedToken._id
-            let user: any = await User.findOne({ _id: userId })
+            const userId = verifiedToken._id
+            const user: any = await User.findOne({ _id: userId })
             const { firstName, lastName } = user
+
             const response = NextResponse.json({ firstName, lastName })
             return response;
-        } else {
-            return;
         }
+        return response;
     }
     catch (error) {
         console.log(error)
