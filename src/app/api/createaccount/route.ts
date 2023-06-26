@@ -2,11 +2,11 @@ import throwError from "@/app/throwerror"
 import { NextResponse } from "next/server"
 import User from '../../mongooseschema'
 import bcrypt from 'bcrypt';
-import { signJwt } from '../../lib/auth'
+import { createAccessToken, createRefreshtoken } from '@/app/lib/tokenlogic'
 
 export async function POST(request: Request) {
     try {
-        const { firstName, lastName, email, password, rememberPassword } = await request.json()
+        const { firstName, lastName, email, password } = await request.json()
         let fields = [firstName, lastName, email]
         const mapedFields = fields.map((field) => {
             return field.toLowerCase().split(' ').map((char: string) => char.trim()).join('');
@@ -36,7 +36,7 @@ export async function POST(request: Request) {
 
             (async () => {
                 const _id = savedUser._id.toString()
-                const token = await signJwt(_id, email, rememberPassword) as string
+                const token = await createAccessToken(_id, email) as string
                 response.cookies.set({
                     name: 'user-token',
                     value: token,
@@ -44,7 +44,17 @@ export async function POST(request: Request) {
                     maxAge: 60 * 60 * 8,
                 });
             })();
-            // console.log('User created:', savedUser);
+            (async () => {
+                const _id = savedUser._id.toString()
+                const token = await createRefreshtoken(_id, email) as string
+                response.cookies.set({
+                    name: 'refresh-token',
+                    value: token,
+                    httpOnly: true,
+                    maxAge: 60 * 60 * 2,
+                });
+            })()
+            console.log('User created:', savedUser);
             return response;
         }
 

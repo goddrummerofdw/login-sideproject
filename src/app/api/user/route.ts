@@ -1,12 +1,12 @@
 'use server';
 import { NextRequest, NextResponse } from "next/server"
 import User from '../../mongooseschema'
-import { verifyAuth } from '../../lib/auth'
+import { verifyToken } from '../../lib/tokenlogic'
 import { cookies } from 'next/headers'
 
 export async function GET(request: NextRequest) {
     const token: any = cookies().get('user-token')?.value;
-    const verifiedToken = token && await verifyAuth(token).catch((err) => console.log(err))
+    const verifiedToken = token && await verifyToken(token).catch((err) => console.log(err))
     try {
         if (verifiedToken) {
             const userId = verifiedToken._id
