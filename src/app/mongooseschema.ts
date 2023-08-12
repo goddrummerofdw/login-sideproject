@@ -7,7 +7,8 @@ const createUSerSchema = new Schema({
     firstName: String,
     lastName: String,
     email: String,
-    password: String
+    password: String,
+    createdAt: Date
 });
 const User = connect.model('User', createUSerSchema);
 

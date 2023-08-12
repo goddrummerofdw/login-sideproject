@@ -3,20 +3,23 @@ import { NextRequest, NextResponse } from "next/server"
 import User from '../../mongooseschema'
 import { verifyToken } from '../../lib/tokenlogic'
 import { cookies } from 'next/headers'
+import { revalidatePath } from 'next/cache'
+export async function GET(req: NextRequest) {
+    // const path = req.nextUrl.searchParams.get('path') || ''
+    // revalidatePath(path)
+    // console.log(path, 'This is path')
 
-export async function GET(request: NextRequest) {
-    const token: any = cookies().get('user-token')?.value;
-    const verifiedToken = token && await verifyToken(token).catch((err) => console.log(err))
+    const hasAccessToken = req.cookies.has("user-token")
+    const accessToken = cookies().get('user-token')?.value as string;
+    const verifiedAccessToken = hasAccessToken ? await verifyToken(accessToken).catch((error) => console.log("failed verifying refresh token ", error)) : false;
     try {
-        if (verifiedToken) {
-            const userId = verifiedToken._id
+        if (verifiedAccessToken) {
+            const userId = verifiedAccessToken._id
             const user: any = await User.findOne({ _id: userId })
             const { firstName, lastName } = user
             return NextResponse.json({ firstName, lastName });
-
         } else {
-            const response = NextResponse.json({ message: "No user found with this token" });
-            return response;
+            return NextResponse.json({ message: "No user found with this token" });
         }
     }
     catch (error) {

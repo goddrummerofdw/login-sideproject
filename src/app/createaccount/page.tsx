@@ -50,9 +50,6 @@ const CreateAccount = () => {
         },
     });
 
-    const closeAlert = () => {
-        setAlertVisible(false);
-    };
 
     return (
         <div className="w-full 2xl:grid grid-cols-2">

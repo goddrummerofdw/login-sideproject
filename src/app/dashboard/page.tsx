@@ -1,13 +1,14 @@
 'use client';
 import React from 'react';
-// import axios from 'axios'
 
 const Dashboard = () => {
     const [getUserData, setgetUserData] = React.useState({ firstName: "", lastName: "" })
     // Make sure to make a util function for this
+
     React.useEffect(() => {
         fetch('/api/user', {
-            method: 'GET'
+            next: { revalidate: 0 },
+            method: 'GET',
         }).then((res) => res.json()).then((e) => {
             setgetUserData(e)
         })
@@ -16,8 +17,9 @@ const Dashboard = () => {
     return (
         <div>
             <h1>{`Welcome, ${getUserData.firstName}${' '} ${getUserData.lastName}!`}</h1>
-
+            <p>This is a test</p>
         </div>
     )
 }
+
 export default Dashboard

@@ -48,7 +48,7 @@ const Login = () => {
       <form
         className='flex flex-center flex-col justify-center items-center h-screen'
         onSubmit={formik.handleSubmit}>
-        <h1 className='text-center font-bold text-2xl text-white'>Login</h1>
+        <h1 className='text-center font-bold text-2xl text-white'>Login test</h1>
         <div className='w-3/4'>
           <div className='translate-y-20 translate-x-4 w-5 '>
             <Image
@@ -122,7 +122,9 @@ const Login = () => {
           </motion.button>
           <motion.div
             whileHover={{ scale: 1.01 }}
-            className="text-white-500 mt-1 text-center cursor-pointer" ><Link href="/forgotpassword">Forgot Password</Link></motion.div>
+            className="text-white-500 mt-1 text-center cursor-pointer" >
+              <Link href="/forgotpassword">Forgot Password</Link>
+              </motion.div>
           <motion.div
             whileHover={{ scale: 1.01 }}
             className="text-white-500 mt-1 text-center cursor-pointer" ><Link href="/createaccount">Create Account</Link></motion.div>

@@ -1,49 +1,52 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyToken, createAccessToken } from '@/app/lib/tokenlogic';
-interface JWTPayload {
-    _id: string;
 
-}
+let testedAccessToken: boolean;
 export async function middleware(req: NextRequest, res: NextResponse) {
+
     const response = NextResponse.next()
-    // console.log("middleware being triggered", req.nextUrl.pathname)
-    const accessToken = req.cookies.get('user-token')?.value
+    //Checks to see if user has any tokens on browser
+    const hasAccessToken = req.cookies.has("user-token")
+    const hasRefreshToken = req.cookies.has("refresh-token")
+    //Gets the token from the browser
+    const accessToken = req.cookies.get('user-token')?.value as string
     const refreshToken = req.cookies.get('refresh-token')?.value as string
+    // Verifies the tokens on the user's browser
+    const verifiedAccessToken = hasAccessToken ? await verifyToken(accessToken).catch((error) => console.log("failed verifying refresh token ", error)) : false;
+    const verifiedRefreshToken = hasRefreshToken ? await verifyToken(refreshToken).catch((error) => console.log("failed verifying refresh token ", error)) : false;
 
-    let verifiedAccessToken: any;
-    verifiedAccessToken = accessToken && await verifyToken(accessToken).catch((err) => console.log(err));
+    // Changes the testedAccessToken variable which is responsible for redirecting the user to the correct page
 
-    if (accessToken === undefined && refreshToken === undefined) {
-        verifiedAccessToken === undefined
-    } else if (accessToken === undefined) {
-        await verifyToken(refreshToken)
-        const tokenContent = await verifyToken(refreshToken)
-        const { _id, email } = tokenContent as any
-        verifiedAccessToken = await createAccessToken(_id, email)
+    if (!verifiedAccessToken && !verifiedRefreshToken) {
+        testedAccessToken = false
+    } else if (verifiedAccessToken) {
+        testedAccessToken = true
+    } else if (!verifiedAccessToken && verifiedRefreshToken) {
+        const { _id, email } = verifiedRefreshToken as any
+        const newAccessToken = await createAccessToken(_id, email) as string
         response.cookies.set({
             name: 'user-token',
-            value: verifiedAccessToken,
+            value: newAccessToken,
             httpOnly: true,
-            maxAge: 60 * 1,
+            maxAge: 60,
         });
+        return response;
     }
+    //Navigates the user to the appropriate page depending on testedAccessToken
 
-
-    if (req.nextUrl.pathname.startsWith('/login') && !verifiedAccessToken) {
-        // console.log('You dont have a token')
+    if (req.nextUrl.pathname.startsWith('/login') && !testedAccessToken) {
         return;
     }
-    if (req.nextUrl.pathname.startsWith('/login') && verifiedAccessToken) {
+    if (req.nextUrl.pathname.startsWith('/login') && testedAccessToken) {
+
         return NextResponse.redirect(new URL('/dashboard', req.url));
     }
-    if (!verifiedAccessToken) {
-        // console.log('No token')
+    if (!testedAccessToken) {
         return NextResponse.redirect(new URL('/login', req.url));
     }
-    if (req.nextUrl.pathname.startsWith('/createaccount') && verifiedAccessToken) {
+    if (req.nextUrl.pathname.startsWith('/createaccount') && testedAccessToken) {
         return NextResponse.redirect(new URL('/dashboard', req.url));
     }
-    return response;
 }
 
 export const config = {
