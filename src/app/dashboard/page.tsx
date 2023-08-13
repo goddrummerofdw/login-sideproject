@@ -7,7 +7,7 @@ const Dashboard = () => {
 
     React.useEffect(() => {
         fetch('/api/user', {
-            next: { revalidate: 0 },
+            cache: 'no-store',
             method: 'GET',
         }).then((res) => res.json()).then((e) => {
             setgetUserData(e)

@@ -34,7 +34,7 @@ export const AuthProvider = ({ children }: any) => {
   const timeoutFunc = () => clearTimeout(timeout);
   const login = (data: { email: string, password: string, rememberPassword: boolean }) => {
     fetch('/api/login', {
-      next: { revalidate: 0 },
+      cache: 'no-store',
       method: 'POST',
       body: JSON.stringify(data),
     })

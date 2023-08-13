@@ -21,7 +21,7 @@
     "framer-motion": "^10.12.12",
     "jose": "^4.14.4",
     "moment-timezone": "^0.5.43",
-    "mongoose": "6.10.3",
+    "mongoose": "^7.4.3",
     "nanoid": "^4.0.2",
     "next": "13.4.3",
     "node-fetch": "^3.3.1",
