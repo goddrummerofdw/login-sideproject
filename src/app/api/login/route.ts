@@ -1,4 +1,3 @@
-'use server';
 import throwError from "@/app/throwerror"
 import { NextRequest, NextResponse } from "next/server"
 import User from '../../mongooseschema'
